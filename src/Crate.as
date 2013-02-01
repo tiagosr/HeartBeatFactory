@@ -180,6 +180,7 @@ package
 			}
 		}
 		
+		
 		public function win(dir:int):void {
 			flicker(1);
 			var self:Crate = this;

@@ -2,6 +2,7 @@ package
 {
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroupX;
+	import org.flixel.FlxPoint;
 	import org.flixel.FlxSprite;
 	
 	public class Heart extends FlxGroupX
@@ -15,8 +16,8 @@ package
 		public var spawn_list:Array = [];
 		protected var next_spawn:Object = null;
 		public var state:GameState;
-		public var done:Boolean = false;
-		protected var ht:FlxSprite, hl:FlxSprite, hr:FlxSprite, hb:FlxSprite;
+		public var done:Boolean = false, enabled:Boolean = false;
+		protected var ht:FlxSprite, hl:FlxSprite, hr:FlxSprite, hb:FlxSprite, hc:FlxSprite;
 		
 		public function Heart(X:Number=0, Y:Number=0, State:GameState = null)
 		{
@@ -26,7 +27,7 @@ package
 			ht = new FlxSprite(0,-16);
 			var htr:FlxSprite = new FlxSprite(16,-16);
 			hl = new FlxSprite(-16, 0);
-			var hc:FlxSprite = new FlxSprite(0,0);
+		 	hc:FlxSprite = new FlxSprite(0,0);
 			hr = new FlxSprite(16, 0);
 			var hbl:FlxSprite = new FlxSprite(-16, 16);
 			hb = new FlxSprite(0,16);
@@ -72,6 +73,10 @@ package
 			this.exists = true;
 		}
 		
+		public function click_test(x:int, y:int):Boolean {
+			return hc.overlapsPoint(new FlxPoint(x,y));
+		}
+
 		public function spawnCrate(from_exit:int):Crate {
 			// TODO: anim das setinhas
 			var crate:Crate = new Crate(_x+[0, 16, 0, -16][from_exit], _y+[-16, 0, 16, 0][from_exit],state.current_stage_tiles);
@@ -80,21 +85,26 @@ package
 		}
 		
 		
+		public function enable():void {
+			enabled = true;
+		}
 		
 		public function trigger():void {
-			if(next_spawn != null) {
-				next_spawn.ticks--;
-				// TODO: anim das setinhas
-				if(next_spawn.ticks == 0) {
-					spawnCrate(next_spawn.from);
-					next_spawn = null;
+			if(enabled) {
+				if(next_spawn != null) {
+					next_spawn.ticks--;
+					// TODO: anim das setinhas
+					if(next_spawn.ticks == 0) {
+						spawnCrate(next_spawn.from);
+						next_spawn = null;
+						trigger();
+					}
+				} else if(spawn_list.length > 0) {
+					next_spawn = spawn_list.pop();
 					trigger();
+				} else {
+					done = true;
 				}
-			} else if(spawn_list.length > 0) {
-				next_spawn = spawn_list.pop();
-				trigger();
-			} else {
-				done = true;
 			}
 		}
 		

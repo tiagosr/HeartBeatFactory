@@ -4,7 +4,7 @@ package
 	
 	import stateMachine.StateMachine;
 	
-	public class Porta extends FlxSprite
+	public class Door extends FlxSprite
 	{
 		
 		public static const
@@ -16,7 +16,7 @@ package
 		private var nextstate:String = null;
 		private var sm:StateMachine = null;
 		
-		public function Porta(X:Number=0, Y:Number=0, direcao = DIR_UP, open:Boolean = true)
+		public function Door(X:Number=0, Y:Number=0, direcao = DIR_UP, open:Boolean = true)
 		{
 			super(X, Y,null);
 			dir = direcao;
@@ -56,13 +56,13 @@ package
 				from:"fechado"
 			});
 			sm.initialState = open?"aberto":"fechado";
-			this.addAnimationCallback(fimDaAnimacao);
+			this.addAnimationCallback(animCallback);
 					
 		}
 
 
 		
-		private function fimDaAnimacao(nome:String,frameNumber:Number,frameIndex:Number):void
+		private function animCallback(nome:String,frameNumber:Number,frameIndex:Number):void
 		{
 			if(finished)
 			{

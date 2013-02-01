@@ -7,7 +7,7 @@ package
 	
 	import stateMachine.*;
 	
-	public class Pistao extends FlxGroupX
+	public class Piston extends FlxGroupX
 	{
 		
 		public static const
@@ -22,7 +22,7 @@ package
 		private var nextstate:String;
 		private var sm:StateMachine;
 		
-		public function Pistao(X:Number=0, Y:Number=0, direction:int=DIR_UP, open:Boolean = true)
+		public function Piston(X:Number=0, Y:Number=0, direction:int=DIR_UP, open:Boolean = true)
 		{
 			super(X, Y);
 			dir = direction;

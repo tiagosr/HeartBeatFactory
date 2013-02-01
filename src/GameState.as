@@ -284,10 +284,10 @@ package
 						[1, Heart.DIR_LEFT]
 					],
 					doors: [
-						[5,0, Porta.DIR_UP]
+						[5,0, Door.DIR_UP]
 					],
 					pistons: [
-						[17, 3, Pistao.DIR_LEFT],
+						[17, 3, Piston.DIR_LEFT],
 					],
 					requirements: 4
 				};
@@ -316,7 +316,7 @@ package
 						[1, Heart.DIR_RIGHT]
 					],
 					doors: [
-						[5,0, Porta.DIR_UP]
+						[5,0, Door.DIR_UP]
 					],
 					pistons: [
 					],
@@ -325,6 +325,7 @@ package
 				game_save.data["stages"] = stages;
 				
 			}
+import org.flixel.FlxPoint;
 			
 			current_stage_current_frames = new Array();
 			current_stage_tile_speeds = new Array();
@@ -342,10 +343,10 @@ package
 		}
 		
 		public function setupStage(stagenum:int):void {
-			for each(var piston:Pistao in current_pistons) {
+			for each(var piston:Piston in current_pistons) {
 				remove(piston);
 			}
-			for each(var door:Porta in current_doors) {
+			for each(var door:Door in current_doors) {
 				remove(door);
 			}
 			for each(var crate:Crate in current_crates) {
@@ -356,17 +357,17 @@ package
 					
 			}
 			for each (var doordata:Array in stage_props[stagenum].doors) {
-				addDoor(new Porta(16*doordata[0],16*doordata[1],doordata[2],doordata[3]));
+				addDoor(new Door(16*doordata[0],16*doordata[1],doordata[2],doordata[3]));
 			}
 			for each (var pistondata:Array in stage_props[stagenum].pistons) {
-				addPiston(new Pistao(16*doordata[0],16*doordata[1],doordata[2],doordata[3]));
+				addPiston(new Piston(16*doordata[0],16*doordata[1],doordata[2],doordata[3]));
 			}
 		}
 		
 		private var mapx:uint, mapy:uint;
 		private var debounce:Boolean = false, kdebounce:Boolean = false, ekdebounce:Boolean = false;
 		private var current_edit_tile:uint = 1;
-		private var dragged_piston:Pistao = null;
+		private var dragged_piston:Piston = null;
 		private var sync_debounce:Boolean = false;
 		private var dragged_piston_back:FlxPoint = null;
 		override public function update():void {
@@ -406,17 +407,30 @@ package
 						sm.changeState('ingame');
 						debounce = true;
 					} else {
-						for each (var piston:Pistao in current_pistons) {
+						if (pump.click_test(FlxG.mouse.x, FlxG.mouse.y)) {
+							pump.enable();
+						}
+						for each (var piston:Piston in current_pistons) {
 							if(piston.mouseHitTest(editCursor)) {
 								dragged_piston = piston;
+								dragged_piston_back = new FlxPoint(piston.x,piston.y);
 							}
 						}
 						if (dragged_piston == null) {
 							debounce = true;
 						}
+						
 					}
 				} else {
-					dragged_piston = null;
+					if(dragged_piston!=null) {
+						var cx:int = dragged_piston.x/16;
+						var cy:int = dragged_piston.y/16;
+						if(current_stage_tiles[cy][cx] != PLACE__) {
+							dragged_piston.x = dragged_piston_back.x;
+							dragged_piston.y = dragged_piston_back.y;
+						}
+						dragged_piston = null;
+					}
 					debounce = false;
 				}
 				
@@ -455,10 +469,10 @@ package
 			
 			if (int(frame_sync)%64==0) { // fine tuning do sincronismo dos pistões
 				if(!sync_debounce) {
-					for each(var piston:Pistao in current_pistons) {
+					for each(var piston:Piston in current_pistons) {
 						piston.trigger();
 					}
-					for each(var door:Porta in current_doors) {
+					for each(var door:Door in current_doors) {
 						door.toggle();
 					}
 					if (crate_spawn_list.length > 0) {
@@ -472,10 +486,10 @@ package
 			
 			for each (var crate:Crate in current_crates) {
 				if(crate.alive) {
-					for each(var piston:Pistao in current_pistons) {
+					for each(var piston:Piston in current_pistons) {
 						piston.collideWithCrate(crate);
 					}
-					for each(var door:Porta in current_doors) {
+					for each(var door:Door in current_doors) {
 						door.collideWithCrate(crate);
 					}
 				}
@@ -508,12 +522,12 @@ package
 			current_crates.push(crate);
 		}
 		
-		public function addDoor(door:Porta):void {
+		public function addDoor(door:Door):void {
 			add(door);
 			current_doors.push(door);
 		}
 		
-		public function addPiston(piston:Pistao):void {
+		public function addPiston(piston:Piston):void {
 			add(piston);
 			current_pistons.push(piston);
 		}

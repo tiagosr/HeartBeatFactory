@@ -6,3 +6,6 @@ src/._Pistao.as
 src/._Porta.as
 src/._pump.wav
 src/._tilesheet.png
+bin-debug/._index.html
+bin-debug/._pump.wav
+bin-debug/._tilesheet.png
