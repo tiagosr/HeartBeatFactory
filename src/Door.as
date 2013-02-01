@@ -16,12 +16,12 @@ package
 		private var nextstate:String = null;
 		private var sm:StateMachine = null;
 		
-		public function Door(X:Number=0, Y:Number=0, direcao = DIR_UP, open:Boolean = true)
+		public function Door(X:Number=0, Y:Number=0, direcao:int = DIR_UP, open:Boolean = true)
 		{
 			super(X, Y,null);
 			dir = direcao;
 			var f:int = [320, 280, 300, 340][dir];
-			this.loadGraphic(GameState.tilesheet,true,16,16);
+			this.loadGraphic(GameState.tilesheet,true,false,16,16);
 			this.addAnimation('aberto',[f]);
 			this.addAnimation('fechando',[(f),(f+1),(f+2),(f+3),(f+4),(f+5)],10,false);
 			this.addAnimation('abrindo',[(f+5),(f+4),(f+3),(f+2),(f+1),(f+0)],10,false);

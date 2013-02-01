@@ -32,7 +32,7 @@ package
 			super(X, Y);
 			sm = new StateMachine();
 			stage = _Stage;
-			this.loadGraphic(GameState.tilesheet,true,16,16);
+			this.loadGraphic(GameState.tilesheet,true,false,16,16);
 			this.addAnimation('normal',[260]);
 			this.addAnimation('break',[260,261,262,263,264,265,266,267],10,false);
 			var self:Crate = this;
@@ -151,14 +151,15 @@ package
 			}
 			super.update();
 			anim_counter += GameState.animspeed;
+			var pt:FlxPoint;
 			while(anim_counter >= 1.0) {
 				if(walkqueue.length > 0) {
-					var pt:FlxPoint = walkqueue.pop() as FlxPoint;
+					pt = walkqueue.pop() as FlxPoint;
 					x += pt.x;
 					y += pt.y;
 				}
 				if(priority_walkqueue.length > 0) {
-					var pt:FlxPoint = priority_walkqueue.pop() as FlxPoint;
+					pt = priority_walkqueue.pop() as FlxPoint;
 					x += pt.x;
 					y += pt.y;
 				}
@@ -184,7 +185,7 @@ package
 		public function win(dir:int):void {
 			flicker(1);
 			var self:Crate = this;
-			setTimeout(function(){
+			setTimeout(function():void{
 				self.kill();
 			}, 1000);
 			if(sm.state != 'arrived') {

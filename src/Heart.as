@@ -27,7 +27,7 @@ package
 			ht = new FlxSprite(0,-16);
 			var htr:FlxSprite = new FlxSprite(16,-16);
 			hl = new FlxSprite(-16, 0);
-		 	hc:FlxSprite = new FlxSprite(0,0);
+		 	hc = new FlxSprite(0,0);
 			hr = new FlxSprite(16, 0);
 			var hbl:FlxSprite = new FlxSprite(-16, 16);
 			hb = new FlxSprite(0,16);

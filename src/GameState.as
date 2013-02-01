@@ -177,7 +177,7 @@ package
 				bgmap[j] = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
 			}
 			
-			bg.loadMap(bgmap.map(function(i,a,b):String {
+			bg.loadMap(bgmap.map(function(i:Object,a:*,b:*):String {
 				return FlxTilemap.arrayToCSV(i as Array,(i as Array).length);
 			}).join("\n"), tilesheet,16, 16);
 			
@@ -187,7 +187,7 @@ package
 				[109,110,111,112,113,114],
 				[129,130,131,132,133,134]
 			];
-			title_card.loadMap(title_card_map.map(function(i,a,b):String {
+			title_card.loadMap(title_card_map.map(function(i:Object,a:*,b:*):String {
 				return FlxTilemap.arrayToCSV(i as Array,(i as Array).length);
 			}).join("\n"), tilesheet,16, 16);
 			
@@ -469,8 +469,8 @@ import org.flixel.FlxPoint;
 			
 			if (int(frame_sync)%64==0) { // fine tuning do sincronismo dos pistões
 				if(!sync_debounce) {
-					for each(var piston:Piston in current_pistons) {
-						piston.trigger();
+					for each(var tpiston:Piston in current_pistons) {
+						tpiston.trigger();
 					}
 					for each(var door:Door in current_doors) {
 						door.toggle();
@@ -486,11 +486,11 @@ import org.flixel.FlxPoint;
 			
 			for each (var crate:Crate in current_crates) {
 				if(crate.alive) {
-					for each(var piston:Piston in current_pistons) {
-						piston.collideWithCrate(crate);
+					for each(var cpiston:Piston in current_pistons) {
+						cpiston.collideWithCrate(crate);
 					}
-					for each(var door:Door in current_doors) {
-						door.collideWithCrate(crate);
+					for each(var cdoor:Door in current_doors) {
+						cdoor.collideWithCrate(crate);
 					}
 				}
 			}

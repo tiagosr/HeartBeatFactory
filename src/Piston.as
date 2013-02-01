@@ -37,17 +37,17 @@ package
 				(dir==DIR_UP)?-16:((dir==DIR_DOWN)?16:0));
 			
 			pspr.loadGraphic(GameState.tilesheet,true,false,16,16);
-			pspr.addAnimation('abrindo',[19, 9, 8, 7, 6, 5, 4, 3, 2].map(function(i:*, a,b):int {
+			pspr.addAnimation('abrindo',[19, 9, 8, 7, 6, 5, 4, 3, 2].map(function(i:*, a:*,b:*):int {
 				return f+(i as int);
 			}),30,false);
-			pspr.addAnimation('aberto',[10, 11, 12, 13, 14, 15, 16, 17].map(function(i:*, a,b):int {
+			pspr.addAnimation('aberto',[10, 11, 12, 13, 14, 15, 16, 17].map(function(i:*, a:*,b:*):int {
 				return f+(i as int);
 			}),30, true);
-			pspr.addAnimation('guardando',[2, 3, 4, 5, 6, 7, 8, 9, 19].map(function(i:*, a,b):int {
+			pspr.addAnimation('guardando',[2, 3, 4, 5, 6, 7, 8, 9, 19].map(function(i:*, a:*,b:*):int {
 				return f+(i as int);
 			}),30,false);
 			pspr.addAnimation('guardado',[19],0, false);
-			pspr.addAnimationCallback(function(anim:String,b,c) {
+			pspr.addAnimationCallback(function(anim:String,b:*,c:*):void {
 				if(pspr.finished) {
 					if(nextstate != null) {
 						sm.changeState(nextstate);
@@ -97,7 +97,7 @@ package
 			});
 			sm.initialState = open?"aberto":"guardado";
 		}
-		public function go(state:String) {
+		public function go(state:String):void {
 			sm.changeState(state);
 		}
 		public function collideWithCrate(crate:Crate):void {

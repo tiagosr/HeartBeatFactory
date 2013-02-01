@@ -1,6 +1,6 @@
 package
 {
-	public class Stage
+	public class GameStage
 	{
 		public static const TILES_WIDE:int = 20, TILES_HIGH:int = 16;
 		public static const 
@@ -65,7 +65,7 @@ package
 		public var lastframe:int;
 		public var anim_tiles:Array;
 		
-		public function Stage(tiles:Array,
+		public function GameStage(tiles:Array,
 							  name:String,
 							  sequence:Array,
 							  doors:Array,
